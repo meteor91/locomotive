@@ -1,26 +1,29 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Provider as ReduxProvider} from 'react-redux';
+import { BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
+import { store } from 'core/store';
+import { Layout } from 'core/components/Layout';
+import { Map } from 'modules/maps/pages/Map';
+import { locomotiveRoutes } from 'modules/locomotives/routes';
+
+import "./App.scss";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <ReduxProvider store={store}>
+            <Router>
+                <Routes>
+                    <Route element={<Layout />}>
+                        <Route path="/" element={<Navigate to="/locomotives" />}/>
+                        {locomotiveRoutes()}
+                        <Route path="maps">
+                            <Route path="" element={<Map />} />
+                        </Route>
+                    </Route>
+                </Routes>
+            </Router>
+        </ReduxProvider>
+    );
 }
 
 export default App;
