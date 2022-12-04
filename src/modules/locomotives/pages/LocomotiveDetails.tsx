@@ -4,6 +4,8 @@ import { Descriptions, Row, Col, Space, Button } from 'antd';
 import { useSelector } from 'react-redux';
 import { TAppState } from 'core/store';
 import { ErrorResult } from 'core/components/ErrorResult';
+import { MarkersOnMap } from 'core/components/GoogleMap/MarkersOnMap';
+import { SpaceVertical } from 'core/components/SpaceVertical';
 import { routeMap } from '../routeMap';
 
 export const LocomotiveDetails: React.FC = () => {
@@ -19,8 +21,14 @@ export const LocomotiveDetails: React.FC = () => {
     if (!locomotive) {
         return <ErrorResult />;
     } else {
+        const marker: google.maps.MarkerOptions = {
+            position: {
+                lat: locomotive.coords.latitude,
+                lng: locomotive.coords.longitude,
+            }
+        }
         return (
-            <>
+            <SpaceVertical>
                 <Row>
                     <Col span={24}>
                         <Descriptions title={locomotive.name} column={1}>
@@ -32,12 +40,19 @@ export const LocomotiveDetails: React.FC = () => {
                 </Row>
                 <Row>
                     <Col span={24}>
+                        {/*@ts-ignore TODO разобраться с типом*/}
+                        <MarkersOnMap markers={[marker]} defaultCenter={marker.position}/>
+                    </Col>
+                </Row>
+
+                <Row>
+                    <Col span={24}>
                         <Space>
                             <Button onClick={handleEdit}>Редактировать</Button>
                         </Space>
                     </Col>
                 </Row>
-            </>
+            </SpaceVertical>
         )
     }
 }

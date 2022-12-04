@@ -4,6 +4,7 @@ import { DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { generatePath, Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { TAppState } from 'core/store';
+import { SpaceVertical } from 'core/components/SpaceVertical';
 import { ICoordinate, ILocomotive } from '../models';
 import { routeMap } from '../routeMap';
 import { deleteLocomotive } from '../slices';
@@ -18,7 +19,7 @@ export const LocomotivesList: React.FC = () => {
     const dispatch = useDispatch();
 
     return (
-        <>
+        <SpaceVertical>
             <Row>
                 <Col span={24}>
                     <Button
@@ -71,7 +72,7 @@ export const LocomotivesList: React.FC = () => {
                     </Table>
                 </Col>
             </Row>
-        </>
+        </SpaceVertical>
     )
 }
 

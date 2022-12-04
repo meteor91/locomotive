@@ -47,6 +47,7 @@ export const LocomotiveForm: React.FC<IProps> = (props) => {
                 label="Название"
                 name="name"
                 rules={rulesRequire}
+                wrapperCol={{ span: 6 }}
             >
                 <Input/>
             </Form.Item>
@@ -54,6 +55,7 @@ export const LocomotiveForm: React.FC<IProps> = (props) => {
                 label="Серия"
                 name="series"
                 rules={rulesRequire}
+                wrapperCol={{ span: 6 }}
             >
                 <Input/>
             </Form.Item>
