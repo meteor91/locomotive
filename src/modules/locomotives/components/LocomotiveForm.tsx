@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import { Button, Form, Input, Space, InputNumber } from 'antd';
 import { ILocomotive } from '../models';
+import { SelectPositionOnMap } from 'core/components/GoogleMap/SelectPositionOnMap';
 
 interface IProps {
     onSubmit: (theme: ILocomotive) => void;
@@ -14,14 +15,33 @@ const rulesRequire = [{required: true, message: "Обязательное пол
 export const LocomotiveForm: React.FC<IProps> = (props) => {
 
     const {onSubmit, onCancel, prefill, isLoading} = props;
+    const [form] = Form.useForm();
+    const [markerPosition, setMarkerPosition] = useState<google.maps.LatLngLiteral | null>(
+        prefill ? {lat: prefill.coords.latitude, lng: prefill.coords.longitude} : null
+    );
+
+    const handleSelectPosition = useCallback((e: google.maps.MapMouseEvent) => {
+        form.setFieldValue(["coords", "latitude"], e.latLng!.lat())
+        form.setFieldValue(["coords", "longitude"], e.latLng!.lng())
+        setMarkerPosition(e.latLng!.toJSON());
+    }, [form, setMarkerPosition]);
 
     return (
         <Form
-            name="theme_form"
+            form={form}
+            name="locomotive_form"
             onFinish={onSubmit}
             autoComplete="off"
             initialValues={prefill}
-            labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}
+            labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}
+            onValuesChange={(_values, formData) => {
+                if (formData?.coords.latitude && formData?.coords.longitude) {
+                    setMarkerPosition({
+                        lat: formData.coords.latitude,
+                        lng: formData.coords.longitude,
+                    })
+                }
+            }}
         >
             <Form.Item
                 label="Название"
@@ -55,15 +75,19 @@ export const LocomotiveForm: React.FC<IProps> = (props) => {
                     rules={rulesRequire}
                     style={{display: 'inline-block', width: 'calc(50% - 8px)'}}
                 >
-                    <Input placeholder="Широта"/>
+                    <InputNumber placeholder="Широта" style={{width: '100%'}} />
                 </Form.Item>
                 <Form.Item
                     name={["coords", "longitude"]}
                     rules={rulesRequire}
                     style={{display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 8px'}}
                 >
-                    <Input placeholder="Долгота"/>
+                    <InputNumber placeholder="Долгота" style={{width: '100%'}} />
                 </Form.Item>
+                <SelectPositionOnMap
+                    onClick={handleSelectPosition}
+                    markerPosition={markerPosition}
+                />
             </Form.Item>
 
             <Form.Item label=" " colon={false}>

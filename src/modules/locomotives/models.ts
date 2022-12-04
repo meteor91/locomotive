@@ -3,8 +3,8 @@
  * @prop longitude Долгота
  */
 export interface ICoordinate {
-    latitude: string;
-    longitude: string;
+    latitude: number;
+    longitude: number;
 }
 
 /**

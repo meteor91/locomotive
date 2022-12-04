@@ -8,9 +8,9 @@ import { routeMap } from './routeMap';
 
 export const locomotiveRoutes = () => {
     return [
-        <Route path={routeMap.list} element={<LocomotivesList />} />,
-        <Route path={routeMap.create} element={<LocomotiveCreate />} />,
-        <Route path={routeMap.edit} element={<LocomotiveEdit />} />,
-        <Route path={routeMap.detail} element={<LocomotiveDetails />} />,
+        <Route path={routeMap.list} element={<LocomotivesList />} key={routeMap.list} />,
+        <Route path={routeMap.create} element={<LocomotiveCreate />} key={routeMap.create} />,
+        <Route path={routeMap.edit} element={<LocomotiveEdit />}  key={routeMap.edit}/>,
+        <Route path={routeMap.detail} element={<LocomotiveDetails />}  key={routeMap.detail}/>,
     ]
 }

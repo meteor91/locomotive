@@ -78,7 +78,7 @@ export const LocomotivesList: React.FC = () => {
 const renderCoord = (coord: ICoordinate) => {
     return (
         <span>
-            {coord.longitude} / {coord.latitude}
+            {coord.latitude} / {coord.longitude}
         </span>
     )
 };

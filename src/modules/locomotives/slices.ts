@@ -14,8 +14,8 @@ const initialState: IState = {
             series: 's7',
             sectionsCount: 23,
             coords: {
-                latitude: '12',
-                longitude: '15',
+                latitude: 49.530097465262685,
+                longitude: 64.5418701171875,
             }
         },
         {
@@ -24,8 +24,8 @@ const initialState: IState = {
             series: 'cx5',
             sectionsCount: 13,
             coords: {
-                latitude: '16',
-                longitude: '11',
+                latitude: 50.92276513116112,
+                longitude: 71.90474290712768,
             }
         }
     ]

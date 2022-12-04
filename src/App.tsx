@@ -3,7 +3,7 @@ import { Provider as ReduxProvider} from 'react-redux';
 import { BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import { store } from 'core/store';
 import { Layout } from 'core/components/Layout';
-import { Map } from 'modules/maps/pages/Map';
+import { LocomotivesOnMap } from 'modules/maps/pages/LocomotivesOnMap';
 import { locomotiveRoutes } from 'modules/locomotives/routes';
 
 import "./App.scss";
@@ -17,7 +17,7 @@ function App() {
                         <Route path="/" element={<Navigate to="/locomotives" />}/>
                         {locomotiveRoutes()}
                         <Route path="maps">
-                            <Route path="" element={<Map />} />
+                            <Route path="" element={<LocomotivesOnMap />} />
                         </Route>
                     </Route>
                 </Routes>
