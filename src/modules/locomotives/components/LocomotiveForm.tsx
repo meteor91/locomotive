@@ -1,7 +1,8 @@
 import React, {useCallback, useState} from 'react';
 import { Button, Form, Input, Space, InputNumber } from 'antd';
-import { ILocomotive } from '../models';
 import { SelectPositionOnMap } from 'core/components/GoogleMap/SelectPositionOnMap';
+import { getGoogleMapPosition } from 'core/utils';
+import { ILocomotive } from '../models';
 
 interface IProps {
     onSubmit: (theme: ILocomotive) => void;
@@ -17,7 +18,7 @@ export const LocomotiveForm: React.FC<IProps> = (props) => {
     const {onSubmit, onCancel, prefill, isLoading} = props;
     const [form] = Form.useForm();
     const [markerPosition, setMarkerPosition] = useState<google.maps.LatLngLiteral | null>(
-        prefill ? {lat: prefill.coords.latitude, lng: prefill.coords.longitude} : null
+        prefill ? getGoogleMapPosition(prefill) : null
     );
 
     const handleSelectPosition = useCallback((e: google.maps.MapMouseEvent) => {
@@ -36,10 +37,7 @@ export const LocomotiveForm: React.FC<IProps> = (props) => {
             labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}
             onValuesChange={(_values, formData) => {
                 if (formData?.coords.latitude && formData?.coords.longitude) {
-                    setMarkerPosition({
-                        lat: formData.coords.latitude,
-                        lng: formData.coords.longitude,
-                    })
+                    setMarkerPosition(getGoogleMapPosition(formData))
                 }
             }}
         >

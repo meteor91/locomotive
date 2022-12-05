@@ -2,6 +2,7 @@ import React from 'react';
 import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { TAppState } from 'core/store';
+import { ErrorResult } from 'core/components/ErrorResult';
 import { LocomotiveForm } from '../components/LocomotiveForm';
 import { ILocomotive } from '../models';
 import { editLocomotive } from '../slices';
@@ -19,12 +20,16 @@ export const LocomotiveEdit: React.FC = () => {
         navigate(generatePath(routeMap.detail, {id: params.id!}));
     }
 
-    return (
-        <LocomotiveForm
-            onSubmit={handleEditLocomotive}
-            prefill={locomotive}
-            isLoading={false}
-            onCancel={() => navigate('/locomotives')}
-        />
-    )
+    if (!locomotive) {
+        return <ErrorResult />;
+    } else {
+        return (
+            <LocomotiveForm
+                onSubmit={handleEditLocomotive}
+                prefill={locomotive}
+                isLoading={false}
+                onCancel={() => navigate('/locomotives')}
+            />
+        )
+    }
 }

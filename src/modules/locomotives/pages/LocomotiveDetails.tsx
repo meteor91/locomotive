@@ -6,6 +6,7 @@ import { TAppState } from 'core/store';
 import { ErrorResult } from 'core/components/ErrorResult';
 import { MapWithSingleMarker } from 'core/components/GoogleMap/MapWithSingleMarker';
 import { SpaceVertical } from 'core/components/SpaceVertical';
+import { getGoogleMapPosition } from 'core/utils';
 import { routeMap } from '../routeMap';
 
 export const LocomotiveDetails: React.FC = () => {
@@ -22,11 +23,8 @@ export const LocomotiveDetails: React.FC = () => {
         return <ErrorResult />;
     } else {
         const marker: google.maps.MarkerOptions = {
-            position: {
-                lat: locomotive.coords.latitude,
-                lng: locomotive.coords.longitude,
-            }
-        }
+            position: getGoogleMapPosition(locomotive),
+        };
         return (
             <SpaceVertical>
                 <Row>

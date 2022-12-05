@@ -25,9 +25,8 @@ const GoogleMapRunner: React.FC<MapProps> = ({
     React.useEffect(() => {
         if (ref.current && !map) {
             setMap(new window.google.maps.Map(ref.current, center ? {center} : {}));
-            // setMap(new window.google.maps.Map(ref.current, {}));
         }
-    }, [ref, map]);
+    }, [ref, map, center]);
 
     useDeepCompareEffectForMaps(() => {
         if (map) {
@@ -37,7 +36,6 @@ const GoogleMapRunner: React.FC<MapProps> = ({
 
     React.useEffect(() => {
         if (map) {
-            console.log('click idle effect');
             ["click", "idle"].forEach((eventName) =>
                 google.maps.event.clearListeners(map, eventName)
             );

@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { List, Row, Col } from 'antd';
 import { TAppState } from 'core/store';
 import { MapWithMarkers } from 'core/components/GoogleMap/MapWithMarkers';
+import { getGoogleMapPosition } from 'core/utils';
 
 const selectLocomotives = (state: TAppState) => state.locomotive.locomotives
 
@@ -17,10 +18,7 @@ export const LocomotivesOnMap: React.FC = () => {
 
     const markers = useMemo<google.maps.MarkerOptions[]>(() => {
         return locomotives.filter((item) => selected !== item.id).map((item => ({
-            position: {
-                lat: item.coords.latitude,
-                lng: item.coords.longitude,
-            },
+            position: getGoogleMapPosition(item),
             zIndex: 1,
         })));
     }, [locomotives, selected]);
@@ -29,10 +27,7 @@ export const LocomotivesOnMap: React.FC = () => {
         const selectedLocomotive = locomotives.find((item) => selected === item.id);
         if (selectedLocomotive) {
             return {
-                position: {
-                    lat: selectedLocomotive.coords.latitude,
-                    lng: selectedLocomotive.coords.longitude,
-                },
+                position: getGoogleMapPosition(selectedLocomotive),
                 zIndex: 10,
                 icon: {
                     url: process.env.PUBLIC_URL + '/blue-marker.png',
@@ -52,7 +47,7 @@ export const LocomotivesOnMap: React.FC = () => {
                     renderItem={(item) => (
                         <List.Item
                             onClick={() => setSelected(item.id)}
-                            style={item.id===selected ? selectedStyle : {}}
+                            style={item.id===selected ? selectedStyle : {cursor: "pointer"}}
                         >
                             {item.name}
                         </List.Item>

@@ -10,6 +10,16 @@ const initialState: IState = {
     locomotives: [
         {
             id: uniqueId('loco_'),
+            name: 'good one',
+            series: 's7',
+            sectionsCount: 23,
+            coords: {
+                latitude: 49.530097465262685,
+                longitude: 66.1019287109375
+            }
+        },
+        {
+            id: uniqueId('loco_'),
             name: 'some name',
             series: 's7',
             sectionsCount: 23,
@@ -77,7 +87,6 @@ export const locomotivesSlice = createSlice({
             }
         },
         deleteLocomotive: (state, action) => {
-            // TODO remove возвращает массив из удаленных элементов, найти более изящное решение
             state.locomotives = remove(state.locomotives, ({id}) => id !== action.payload);
         }
     }
