@@ -76,9 +76,7 @@ export const locomotivesSlice = createSlice({
     initialState,
     reducers: {
         addLocomotive: (state, action) => {
-            const locomotive = {...action.payload};
-            locomotive.id = uniqueId('loco')
-            state.locomotives.push(locomotive);
+            state.locomotives.push(action.payload);
         },
         editLocomotive: (state, action) => {
             const id = findIndex(state.locomotives, (item => item.id === action.payload.id));

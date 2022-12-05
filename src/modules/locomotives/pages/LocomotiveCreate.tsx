@@ -1,8 +1,9 @@
 import React from 'react';
-import { LocomotiveForm } from '../components/LocomotiveForm';
-import { useNavigate } from 'react-router-dom';
-import { ILocomotive } from '../models';
+import { generatePath, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { uniqueId } from 'lodash';
+import { LocomotiveForm } from '../components/LocomotiveForm';
+import { ILocomotive } from '../models';
 import { addLocomotive } from '../slices';
 import { routeMap } from '../routeMap';
 
@@ -11,8 +12,12 @@ export const LocomotiveCreate: React.FC = () => {
     const dispatch = useDispatch();
 
     const handleAddLocomotive = (form: ILocomotive) => {
-        dispatch(addLocomotive(form));
-        navigate(routeMap.list);
+        const newLocomotive = {
+            ...form,
+            id: uniqueId('loco')
+        };
+        dispatch(addLocomotive(newLocomotive));
+        navigate(generatePath(routeMap.detail, {id: newLocomotive.id}));
     }
 
     return (
