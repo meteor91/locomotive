@@ -1,10 +1,11 @@
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { TAppState } from 'core/store';
 import { LocomotiveForm } from '../components/LocomotiveForm';
 import { ILocomotive } from '../models';
 import { editLocomotive } from '../slices';
+import { routeMap } from '../routeMap';
 
 export const LocomotiveEdit: React.FC = () => {
     const params = useParams<'id'>();
@@ -14,9 +15,8 @@ export const LocomotiveEdit: React.FC = () => {
     const locomotive = useSelector((state: TAppState) => state.locomotive.locomotives.find((item) => item.id === params.id!))
 
     const handleEditLocomotive = (form: ILocomotive) => {
-        // debugger
         dispatch(editLocomotive({...form, id: params.id!}));
-        navigate('/locomotives');
+        navigate(generatePath(routeMap.detail, {id: params.id!}));
     }
 
     return (

@@ -49,7 +49,7 @@ export const LocomotivesList: React.FC = () => {
                         />
                         <Table.Column
                             key="createdAt"
-                            title="Количество секци"
+                            title="Количество секций"
                             dataIndex="sectionsCount"
                         />
                         <Table.Column
@@ -62,7 +62,7 @@ export const LocomotivesList: React.FC = () => {
                             key="deleteAction"
                             width={50}
                             render={(record) => (
-                                <DeleteOutlined className="trigger" onClick={() => {
+                                <DeleteOutlined className="trigger-delete" onClick={() => {
                                     showDeleteConfirm(() => {
                                         dispatch(deleteLocomotive(record.id))
                                     })

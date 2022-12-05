@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { List, Row, Col } from 'antd';
 import { TAppState } from 'core/store';
-import { MarkersOnMap } from 'core/components/GoogleMap/MarkersOnMap';
+import { MapWithMarkers } from 'core/components/GoogleMap/MapWithMarkers';
 
 const selectLocomotives = (state: TAppState) => state.locomotive.locomotives
 
@@ -16,13 +16,29 @@ export const LocomotivesOnMap: React.FC = () => {
     const [selected, setSelected] = useState<string>();
 
     const markers = useMemo<google.maps.MarkerOptions[]>(() => {
-        return locomotives.map((item => ({
+        return locomotives.filter((item) => selected !== item.id).map((item => ({
             position: {
                 lat: item.coords.latitude,
                 lng: item.coords.longitude,
             },
-            icon:  selected === item.id ? {url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'} : undefined
+            zIndex: 1,
         })));
+    }, [locomotives, selected]);
+
+    const activeMarker =  useMemo<google.maps.MarkerOptions | undefined>(() => {
+        const selectedLocomotive = locomotives.find((item) => selected === item.id);
+        if (selectedLocomotive) {
+            return {
+                position: {
+                    lat: selectedLocomotive.coords.latitude,
+                    lng: selectedLocomotive.coords.longitude,
+                },
+                zIndex: 10,
+                icon: {
+                    url: process.env.PUBLIC_URL + '/blue-marker.png',
+                }
+            }
+        }
     }, [locomotives, selected])
 
 
@@ -45,9 +61,10 @@ export const LocomotivesOnMap: React.FC = () => {
             </Col>
 
             <Col span={18}>
-                <MarkersOnMap
+                <MapWithMarkers
                     style={{display: "flex", height: "550px"}}
                     markers={markers}
+                    activeMarker={activeMarker}
                 />
             </Col>
 
